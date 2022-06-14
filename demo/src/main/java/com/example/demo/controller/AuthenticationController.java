@@ -1,29 +1,51 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.Post;
+import com.example.demo.model.Tokens;
+import com.example.demo.service.RestService;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 @RestController
 public class AuthenticationController {
 
     HashMap<String, String> userStateAndCode = new HashMap<>();
+    private String accessToken = null;
+    private String refreshToken = null;
+    private String tokenURL = "https://zoom.us/oauth/token";
+    private RestTemplateBuilder restTemplate = new RestTemplateBuilder();
+    private RestService restService = new RestService(restTemplate);
+
 
     @GetMapping("/")
     String saveUserStateAndCode(@RequestParam(required = false, name = "state") String userState,@RequestParam String code) {
-        if(code != null || userState != null){
+        if((code != null || userState != null) && this.accessToken == null){
             userStateAndCode.put(userState, code);
             String valueCode = userStateAndCode.get(userState);
-            return "Your code is automatically used to authenticate to Zoom: " + valueCode + "\n You can close this tab now.";
-    //        return "user state: " + userState + " - code: " + code;
+            Tokens tokens = restService.getTokens(valueCode);
+            this.accessToken = tokens.getAccess_token();
+            this.refreshToken = tokens.getRefresh_token();
+            return "Your code is automatically used to authenticate to Zoom -- " + valueCode + "-- You can close this tab now.";
         }
-        return null;
+        return "TOKEN_ALREADY_REQUESTED";
     }
-
+    @GetMapping("/refreshToken")
+    String sendNewAccessToken(){
+        Tokens tokens = restService.refreshToken(this.refreshToken);
+        if(tokens.getAccess_token() == null)
+            return "couldn't get token";
+        this.accessToken = tokens.getAccess_token();
+        this.refreshToken = tokens.getRefresh_token();
+        return this.refreshToken;
+    }
+    @GetMapping("/token")
+    String sendTokens(){
+        if(this.accessToken != null)
+            return this.accessToken;
+        else
+            return "NO_TOKEN";
+    }
     @GetMapping("/code/{userState}")
     String getCodeByUserState(@PathVariable String userState) {
         if(userState != null){
