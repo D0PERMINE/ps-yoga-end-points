@@ -51,6 +51,7 @@ public class ReadWriteInTextFileManager {
         return fileContent;
     }
 
+    // usage idea
     // token1.setAccessToken(accessTokenData);
     // token1.setRefreshToken(refreshTokenData);
     // ..
