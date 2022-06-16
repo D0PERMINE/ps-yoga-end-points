@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Post;
 import com.example.demo.model.Tokens;
+import com.example.demo.service.ReadWriteInTextFileManager;
 import com.example.demo.service.RestService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ public class AuthenticationController {
     private String accessToken = null;
     private String refreshToken = null;
     private String tokenURL = "https://zoom.us/oauth/token";
+//    private String fileName = "token.txt";
     private RestTemplateBuilder restTemplate = new RestTemplateBuilder();
     private RestService restService = new RestService(restTemplate);
 
@@ -32,15 +34,18 @@ public class AuthenticationController {
     }
     @GetMapping("/refreshToken")
     String sendNewAccessToken(){
+//        ReadWriteInTextFileManager.readFromFile(fileName);
         Tokens tokens = restService.refreshToken(this.refreshToken);
         if(tokens.getAccess_token() == null)
             return "couldn't get token";
         this.accessToken = tokens.getAccess_token();
         this.refreshToken = tokens.getRefresh_token();
+//        ReadWriteInTextFileManager.writeIntoFile(accessToken, refreshToken);
         return this.refreshToken;
     }
     @GetMapping("/token")
     String sendTokens(){
+//        ReadWriteInTextFileManager.readFromFile(fileName);
         if(this.accessToken != null)
             return this.accessToken;
         else
