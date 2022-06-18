@@ -23,21 +23,11 @@ public class RestService {
     private final String idAndSecret = clientId + ":" + clientSecret;
     private String encodedidAndSecret = Base64.getEncoder().encodeToString(idAndSecret.getBytes());
 
+
     public RestService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
         this.restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
     }
-
-public Post getPostWithResponseHandling() {
-    String url = "https://jsonplaceholder.typicode.com/posts/{id}";
-    ResponseEntity<Post> response = this.restTemplate.getForEntity(url, Post.class, 1);
-    if(response.getStatusCode() == HttpStatus.OK) {
-        System.out.println(response.getBody());
-        return response.getBody();
-    } else {
-        return null;
-    }
-}
     public Tokens getTokens(String authCode) {
         String url = "https://zoom.us/oauth/token?code=" + authCode + "&grant_type=authorization_code&redirect_uri=" + this.redirectUri;
 

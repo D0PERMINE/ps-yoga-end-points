@@ -28,6 +28,7 @@ public class AuthenticationController {
             Tokens tokens = restService.getTokens(valueCode);
             this.accessToken = tokens.getAccess_token();
             this.refreshToken = tokens.getRefresh_token();
+            ReadWriteInTextFileManager.writeIntoFile(this.accessToken, this.refreshToken);
             return "Your code is automatically used to authenticate to Zoom -- " + valueCode + "-- You can close this tab now.";
         }
         return "TOKEN_ALREADY_REQUESTED";
@@ -40,6 +41,7 @@ public class AuthenticationController {
             return "couldn't get token";
         this.accessToken = tokens.getAccess_token();
         this.refreshToken = tokens.getRefresh_token();
+
 //        ReadWriteInTextFileManager.writeIntoFile(accessToken, refreshToken);
         return this.refreshToken;
     }
