@@ -11,10 +11,10 @@ import java.nio.file.Files;
 
 public class ReadWriteInTextFileManager {
 
-    public static void writeIntoFile(String authorizeToken, String refreshToken) {
+    public static void writeIntoFile(String authorizeToken, String refreshToken, String fileName) {
 
         try (
-            FileWriter file = new FileWriter("tokens.txt")) {
+            FileWriter file = new FileWriter(fileName)) {
             String[] tokenData = new String[2];
             tokenData[0] = authorizeToken;
             tokenData[1] = refreshToken;
@@ -39,7 +39,7 @@ public class ReadWriteInTextFileManager {
 
             while ((ch = reader.read()) != -1) {
 //                System.out.print((char) ch);
-                fileContent += ch;
+                fileContent += (char) ch;
             }
 
             // close the reader

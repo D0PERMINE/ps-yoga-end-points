@@ -8,15 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class ReadWriteManagerTest {
-    private final String fileName = "tokens.txt";
+    private final String fileName = "test3.txt";
 
     @Test
     void testWriteAndRead(){
-        String testAccesToken= "abcdefg";
-        String testRefreshToken= "asdfghj";
-        ReadWriteInTextFileManager.writeIntoFile(testAccesToken,testRefreshToken);
+        String testAccesToken= "abcdefg333";
+        String testRefreshToken= "asdfghj333";
+        ReadWriteInTextFileManager.writeIntoFile(testAccesToken,testRefreshToken, fileName);
         String tokenStrings = ReadWriteInTextFileManager.readFromFile(fileName);
-        System.out.println(tokenStrings);
-        Assertions.assertEquals(testAccesToken + testRefreshToken, tokenStrings);
+//        System.out.printf("%n%s", tokenStrings);
+        Assertions.assertEquals(testAccesToken + "\n" + testRefreshToken, tokenStrings);
     }
 }
