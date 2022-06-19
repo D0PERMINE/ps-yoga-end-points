@@ -16,7 +16,7 @@ public class ReadWriteManagerTest {
         String testRefreshToken= "asdfghj333";
         ReadWriteInTextFileManager.writeIntoFile(testAccesToken,testRefreshToken, fileName);
         String tokenStrings = ReadWriteInTextFileManager.readFromFile(fileName);
-//        System.out.printf("%n%s", tokenStrings);
+        System.out.println(tokenStrings);
         Assertions.assertEquals(testAccesToken + "\n" + testRefreshToken, tokenStrings);
     }
 }
