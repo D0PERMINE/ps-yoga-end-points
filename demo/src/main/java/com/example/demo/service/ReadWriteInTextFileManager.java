@@ -51,16 +51,5 @@ public class ReadWriteInTextFileManager {
         return fileContent;
     }
 
-    // usage idea
-    // token1.setAccessToken(accessTokenData);
-    // token1.setRefreshToken(refreshTokenData);
-    // ..
-    // ReadWriteInTextFileManager.writeIntoFile(token1.getAccessToken(), token1.getRefreshToken());
-    // ReadWriteInTextFileManager.readFromFile(fileName);
 }
 
-
-
-// read json to string
-//    File resource = new ClassPathResource("token.json").getFile();
-//    String text = new String(Files.readAllBytes(resource.toPath()));

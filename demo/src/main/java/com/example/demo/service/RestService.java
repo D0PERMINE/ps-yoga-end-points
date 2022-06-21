@@ -17,7 +17,7 @@ import java.util.Map;
 public class RestService {
 
     private final RestTemplate restTemplate;
-    private final String redirectUri = "https://bb5e-2a00-20-6041-c0c1-d98c-a8a4-ea1d-a59f.eu.ngrok.io";
+    private final String redirectUri = "https://5170-2003-ea-1717-fb27-f436-c95-412b-212e.eu.ngrok.io";
     private final String clientId = "dvdxc0Z2SsWaOebq32qlvA";
     private final String clientSecret = "u8Wmy1Emv3p1V1ieP68GPjmDgvyVdJuV";
     private final String idAndSecret = clientId + ":" + clientSecret;
@@ -40,7 +40,7 @@ public class RestService {
 
         // send POST request
         Tokens tokens = restTemplate.postForObject(url, entity, Tokens.class);
-        System.out.println(tokens);
+        System.out.println(tokens.getRefresh_token());
         return tokens;
     }
 
@@ -56,7 +56,6 @@ public class RestService {
 
         // send POST request
         Tokens tokens = restTemplate.postForObject(url, entity, Tokens.class);
-        System.out.println(tokens);
         return tokens;
     }
 }
